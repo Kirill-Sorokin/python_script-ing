@@ -16,9 +16,11 @@ def find_all_game_paths(source):
 
 def main(source, target):
     cwd = os.getcwd()
-    # "C://..." + .... <- 'String concatenation': different OS have different path dividers
+    # "C://..." + .... <- 'String concatenation': different OS have different path dividers, therefore don't do this.
     source_path = os.path.join(cwd, source)
     target_path = os.path.join(cwd, target)
+    game_paths = find_all_game_paths(source_path)
+    # print(game_paths)
 
 if __name__ == "__main__":
     args = sys.argv
