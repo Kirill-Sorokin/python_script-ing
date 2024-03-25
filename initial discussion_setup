@@ -1,0 +1,14 @@
+Assumptions:
+
+- data dictionory containing many files and directories.
+- you are only interested in the games contained within this directory.
+- each game is stored in a directory that contains the word "game".
+- each game directory contains a single .go file that must be complied before it can be run.
+
+Project Step(s)/Requirements:
+
+- Find all game directories from /data.
+- Create a new /games directory.
+- Copy and remove the "game" suffix of all games into the /games directory.
+- Compile all of the game code.
+- Runn all of the game code.
