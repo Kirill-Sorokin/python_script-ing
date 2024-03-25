@@ -22,13 +22,14 @@ def get_name_from_paths(paths, to_strip):
         new_names.append(new_dir_name)
     return new_names
 
-
 def create_dir(path):
     if not os.path.exists(path):
         os.mkdir(path)
 
-def copy(source, dest):
-    
+def copy_and_overwrite(source, dest):
+    if os.path.exists(dest):
+        shutil.rmtree(dest)
+    shutil.copytree(source, dest)
 
 def main(source, target):
     cwd = os.getcwd()
@@ -37,8 +38,14 @@ def main(source, target):
     target_path = os.path.join(cwd, target)
     game_paths = find_all_game_paths(source_path)
     # print(game_paths)
-    new_game_dirs = get_name_from_paths(game_paths, "game")
+    new_game_dirs = get_name_from_paths(game_paths, "_game")
     # print(new_game_dirs)
+    
+
+    # Take matching elements from 2 arrays, combining into tuple that gives us access to them at the same time.
+    for src, dest in zip(game_paths, new_game_dirs):
+        dest_path = os.path.join(target_path, dest)
+        copy_and_overwrite(src, dest_path)
     
     create_dir(target_path)
 
