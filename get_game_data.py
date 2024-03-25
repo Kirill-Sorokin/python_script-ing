@@ -3,6 +3,8 @@ from subprocess import PIPE, run
 
 
 GAME_DIR_PATTERN = "game"
+GAME_CODE_EXTENSION = ".go"
+GAME_COMPILE_COMMAND = [".go", "build"]  
 
 def find_all_game_paths(source):
     game_paths = []
@@ -37,6 +39,24 @@ def make_json_metadata_file(path, game_dirs):
     with open(path, "w") as f:
         json.dump(data, f)
     # not using 'with', requires manually closing file, could cause errors (memory leak).
+
+# determine name file.
+def compile_game_code(path):
+    code_file_name = None
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if file.endswith(GAME_CODE_EXTENSION):
+                code_file_name = file
+                break
+        break
+    if code_file_name is None:
+        return
+    command = GAME_COMPILE_COMMAND + [code_file_name]
+
+def run_command(command, path):
+    cwd = os.getcwd()
+    os.chdir(path)
+    run(command, stdout = PIPE, stdin = PIPE, universal_newlines=True)
 
 def main(source, target):
     cwd = os.getcwd()
