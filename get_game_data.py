@@ -31,6 +31,12 @@ def copy_and_overwrite(source, dest):
         shutil.rmtree(dest)
     shutil.copytree(source, dest)
 
+def make_json_metadata_file(path, game_dirs):
+    data = {"gameNames": game_dirs,
+            "numberOfGames": len(game_dirs)}
+    with open(path, "w") as f:
+        json.dump(data, f)
+
 def main(source, target):
     cwd = os.getcwd()
     # "C://..." + .... <- 'String concatenation': different OS have different path dividers, therefore don't do this.
