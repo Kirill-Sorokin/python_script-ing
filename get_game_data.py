@@ -36,6 +36,7 @@ def make_json_metadata_file(path, game_dirs):
             "numberOfGames": len(game_dirs)}
     with open(path, "w") as f:
         json.dump(data, f)
+    # not using 'with', requires manually closing file, could cause errors (memory leak).
 
 def main(source, target):
     cwd = os.getcwd()
@@ -52,6 +53,9 @@ def main(source, target):
     for src, dest in zip(game_paths, new_game_dirs):
         dest_path = os.path.join(target_path, dest)
         copy_and_overwrite(src, dest_path)
+
+    json_path = os.path.join(target_path, "metadata.json")
+    make_json_metadata_file(json_path, new_game_dirs)
     
     create_dir(target_path)
 
